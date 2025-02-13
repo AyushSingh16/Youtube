@@ -15,7 +15,7 @@ const Head = () => {
       </div>
       <div className="col-span-10 my-5 text-center">
         <input className="w-1/2 border  border-gray-400 p-2 rounded-l-full" type="text" placeholder="Search"/>
-        <button className="border border-gray-400 h-10.5 px-4 rounded-r-full bg-gray-200 cursor-pointer">
+        <button className="border border-gray-400 h-10.5 px-4 rounded-r-full bg-gray-200 cursor-pointer py-2">
         🔍
         </button>
       </div>
