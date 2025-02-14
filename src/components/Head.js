@@ -1,20 +1,31 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { toggleMenu } from "../utils/appSlice";
 
 const Head = () => {
+
+  const dispatch = useDispatch();
+
+  const toggleMenuHandler = () => {
+    dispatch(toggleMenu());
+  };
   return (
     <div className="grid grid-flow-col m-1 p-1 shadow-lg">
       <div className="flex col-span-1" >
-        <img className="m-4 h-8"
+        <img className="m-4 h-8 cursor-pointer"
+          onClick={() => toggleMenuHandler()}
           alt="menu"
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAaVBMVEX///8jHyCTkZIzMDHz8/MgGxwQCgwAAAAkICHw8PD6+vrW1tacm5sMAAXm5uZ/fn7DwsIvKiwIAABlY2O6uLkZFRatq6w7ODmko6MpJSZzcXJua2yzsbIUDg80MDJ8entWU1RgXV7LysolVrCiAAABOElEQVR4nO3c2W7CMBAF0LCEQFgKBLoCpf3/jyyVWqk8ItnK1JzzB1dxxn4Y3aoCAAAAAAAAAAAAAACAO9TOF8MYFvMsAWdds53EsGxeV+kDtm+TQRyTh1nyhOtN3XesP+rNZ/KEw2nfqa5sD6UnbNIn3MU6pdN18oRVd4wTsT5mmDTVuDtFOajT0XuG2+Ji1/dN/2uxbrMEBAAAAAAAAACAW7TjGHJt08zPoyg+0u9eXhyafR3FsX5MH3D1FGdxbzDYn9Ovej+/9J3qynGXPOGw70zXMmzQlv8Ny/8Py5+ld3AfVuW/aQAAAAAAAAAA4Aald+6Nu1GY3sRTlt7EUN2XOVp2y+8vLb+DNljCDD3C5XdBh+rzzjJpvjvZl32Xsf/I08l+B736AAAAAAAAAAAAAAAA8J98AbnSK2oeEROmAAAAAElFTkSuQmCC"
         />
+        <a href="/">
         <img className="h-16"
           alt="youtube-logo"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkmQeyzQAUug186bry1ASidsoviiSq5HiQ4A&s"
         />
+        </a>
       </div>
       <div className="col-span-10 my-5 text-center">
-        <input className="w-1/2 border  border-gray-400 p-2 rounded-l-full" type="text" placeholder="Search"/>
+        <input className="w-1/2 border  border-gray-400 p-2 rounded-l-full rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" type="text" placeholder="Search"/>
         <button className="border border-gray-400 h-10.5 px-4 rounded-r-full bg-gray-200 cursor-pointer py-2">
         🔍
         </button>
