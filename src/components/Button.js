@@ -1,5 +1,4 @@
 import React from 'react'
-import ButtonsList from './ButtonsList'
 
 const Button = ({name}) => {
   return (
