@@ -2,9 +2,9 @@ import React from 'react'
 
 const VideoCard = ({info}) => {
    
-    if (!info || !info.snippet) {
-        return <div>Loading...</div>; // Handle cases where info is undefined
-    }
+    // if (!info || !info.snippet) {
+    //     return <div>Loading...</div>; // Handle cases where info is undefined
+    // }
         const {snippet, statistics} = info; 
         const {title, channelTitle, thumbnails} = snippet;
 

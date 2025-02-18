@@ -614,6 +614,10 @@ video {
   grid-auto-flow: column;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .rounded-lg {
   border-radius: 0.5rem;
 }
