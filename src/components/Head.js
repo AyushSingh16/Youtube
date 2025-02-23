@@ -20,6 +20,16 @@ const Head = () => {
     };
   }, [searchQuery]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowSearchSuggestions(false);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   const getSearchSuggestions = async () => {
     console.log("API calls : ", searchQuery);
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
@@ -59,12 +69,13 @@ const Head = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={()=>setShowSearchSuggestions(true)}
             onBlur={()=>setShowSearchSuggestions(false)}
+            onScroll={()=>setShowSearchSuggestions(false)}
           />
           <button className="border border-gray-400 h-10.5 px-4 rounded-r-full bg-gray-200 cursor-pointer py-2">
             🔍
           </button>
         </div>
-        {showSearchSuggestions && <div className="ml-[14rem] bg-white fixed z-20 text-left py-2 px-2 shadow-xl rounded-lg w-[32rem] border border-gray-100">
+        {showSearchSuggestions && <div className="ml-[14rem] bg-white fixed z-20 text-left py-2 px-2 shadow-xl rounded-lg w-[32rem] border border-gray-100 ">
           <ul>
             {searchSuggestions?.map((s) => (
               <li key={s} className="py-1 z-20 shadow-sm hover:bg-gray-200">
