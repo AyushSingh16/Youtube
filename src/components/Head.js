@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
-import { YOUTUBE_VIDEOS_API } from "../utils/constants";
+import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,7 +22,7 @@ const Head = () => {
 
   const getSearchSuggestions = async () => {
     console.log("API calls : ", searchQuery);
-    const data = await fetch(YOUTUBE_VIDEOS_API + searchQuery);
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
     setSearchSuggestions(json[1]);
   };
@@ -64,10 +64,10 @@ const Head = () => {
             🔍
           </button>
         </div>
-        {showSearchSuggestions && <div className="ml-[14rem] fixed bg-white py-2 px-2 shadow-xl rounded-lg w-[32rem] border border-gray-100">
+        {showSearchSuggestions && <div className="ml-[14rem] bg-white fixed z-20 text-left py-2 px-2 shadow-xl rounded-lg w-[32rem] border border-gray-100">
           <ul>
             {searchSuggestions?.map((s) => (
-              <li key={s} className="py-1 shadow-sm hover:bg-gray-200">
+              <li key={s} className="py-1 z-20 shadow-sm hover:bg-gray-200">
                 🔍 {s}
               </li>
             ))}
