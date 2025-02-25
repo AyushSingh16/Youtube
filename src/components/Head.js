@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { cache, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import {cachedResults} from "../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+  
+  const searchCache = useSelector((store) => store.search);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    //make an API call after every key-press
-
-    //if the difference between 2 API calls is <200ms
-
-    //decline the API call
-    const timer = setTimeout(() => getSearchSuggestions(), 200);
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSearchSuggestions(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
     return () => {
       clearTimeout(timer);
     };
@@ -29,15 +34,19 @@ const Head = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
   const getSearchSuggestions = async () => {
     console.log("API calls : ", searchQuery);
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
     setSearchSuggestions(json[1]);
+
+    //update cache
+    dispatch(cachedResults({
+      [searchQuery] : json[1],
+    }));
+
   };
 
-  const dispatch = useDispatch();
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -67,23 +76,25 @@ const Head = () => {
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={()=>setShowSearchSuggestions(true)}
-            onBlur={()=>setShowSearchSuggestions(false)}
-            onScroll={()=>setShowSearchSuggestions(false)}
+            onFocus={() => setShowSearchSuggestions(true)}
+            onBlur={() => setShowSearchSuggestions(false)}
+            onScroll={() => setShowSearchSuggestions(false)}
           />
           <button className="border border-gray-400 h-10.5 px-4 rounded-r-full bg-gray-200 cursor-pointer py-2">
             🔍
           </button>
         </div>
-        {showSearchSuggestions && <div className="ml-[14rem] bg-white fixed z-20 text-left py-2 px-2 shadow-xl rounded-lg w-[32rem] border border-gray-100 ">
-          <ul>
-            {searchSuggestions?.map((s) => (
-              <li key={s} className="py-1 z-20 shadow-sm hover:bg-gray-200">
-                🔍 {s}
-              </li>
-            ))}
-          </ul>
-        </div>}
+        {showSearchSuggestions && (
+          <div className="ml-[14rem] bg-white fixed z-20 text-left py-2 px-2 shadow-xl rounded-lg w-[32rem] border border-gray-100 ">
+            <ul>
+              {searchSuggestions?.map((s) => (
+                <li key={s} className="py-1 z-20 shadow-sm hover:bg-gray-200">
+                  🔍 {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div>
         <img
